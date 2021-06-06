@@ -12,7 +12,6 @@ class Knapsack:
     amountUpper = 0  # upper boundary of how many times item can be selected
 
     generatedItems = ()
-    items = []
 
     def __init__(self, weightCapacity: int, weightLower: int, weightUpper: int, valueLower: int, valueUpper: int,
                  amountLower: int, amountUpper: int):
@@ -33,7 +32,7 @@ class Knapsack:
                     random.randint(self.amountLower, self.amountUpper))
             all_items += (item,)
         self.generatedItems = all_items
-        self.items = sum(([(id_name, wt, val)] * n for id_name, wt, val, n in self.generatedItems), [])
+        return sum(([(id_name, wt, val)] * n for id_name, wt, val, n in self.generatedItems), [])
 
     def dp(self, items):
         operation_counter = 0
@@ -61,6 +60,9 @@ class Knapsack:
                 result.append(items[j - 1])
                 w -= wt
 
+        print("--DP--")
+        print("Value: %i \n Weight: %i" % (
+            sum(item[2] for item in result), sum(item[1] for item in result)))
         return table, result
 
     def approx(self, items):
@@ -70,7 +72,7 @@ class Knapsack:
         for item in items_approx:
             item[2] = item[2] / item[1]
             operation_counter += 1
-        items_approx.sort(key=lambda item: item[2], reverse=True)
+        items_approx.sort(key=lambda itemT: itemT[2], reverse=True)
         # items_approx = np.array(items_approx)
         approx_result = []
         current_weight = 0
@@ -81,4 +83,7 @@ class Knapsack:
                 approx_result += (items_approx[i],)
                 current_weight += items_approx[i][1]
                 current_value += items_approx[i][2] * items_approx[i][1]
+
+        print("--Approximation--")
+        print("Value: " + str(current_value) + " \n Weight: " + str(current_weight))
         return approx_result, current_value
