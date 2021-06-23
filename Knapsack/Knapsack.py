@@ -32,7 +32,7 @@ class Knapsack:
                     random.randint(self.amountLower, self.amountUpper))
             all_items += (item,)
         self.generatedItems = all_items
-        return sum(([(id_name, wt, val)] * n for id_name, wt, val, n in self.generatedItems), [])
+        return sum(([(id_name, wt, val)] * n for id_name, wt, val, n in self.generatedItems), []), self.generatedItems
 
     def dp(self, items):
         operation_counter = 0
